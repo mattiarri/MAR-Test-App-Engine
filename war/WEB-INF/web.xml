@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://java.sun.com/xml/ns/javaee"
+xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+
+	<servlet>
+		<servlet-name>MAR_Test_App_Engine</servlet-name>
+		<servlet-class>com.mar.it.MAR_Test_App_EngineServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MAR_Test_App_Engine</servlet-name>
+		<url-pattern>/mar_test_app_engine</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>RandomNumGeneration</servlet-name>
+		<servlet-class>com.mar.it.RandomNumGeneration</servlet-class>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RandomNumGeneration</servlet-name>
+		<url-pattern>/random_num_generation</url-pattern>
+	</servlet-mapping>
+	
+	
+	
+	<servlet>
+		<servlet-name>RandomNumGeneraton</servlet-name>
+		<servlet-class>com.mar.it.RandomNumGeneration</servlet-class>
+	</servlet>
+		<servlet-mapping>
+		<servlet-name>RandomNumGeneraton</servlet-name>
+		<url-pattern>/randomnumgeneration</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>GenerateBatch</servlet-name>
+		<servlet-class>com.mar.it.GenerateBatch</servlet-class>
+	</servlet>	
+	<servlet-mapping>
+		<servlet-name>GenerateBatch</servlet-name>
+		<url-pattern>/generatebatch</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>JSONChart</servlet-name>
+		<servlet-class>com.mar.it.JSONChart</servlet-class>
+	</servlet>	
+	<servlet-mapping>
+		<servlet-name>JSONChart</servlet-name>
+		<url-pattern>/jsonchart</url-pattern>
+	</servlet-mapping>
+	
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+</web-app>

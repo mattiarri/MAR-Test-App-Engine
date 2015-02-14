@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+	
+  </head>
+
+  <body>
+  <div class="well" style="text-align:center">
+    <h1>GRAFICI RIASSUNTIVI DELLA GENERAZIONE <img src='images/grafici.jpg' class='img-circle'></h1>
+  </div>
+  
+    <!--Div that will hold graphs and tables-->
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#chart_div" data-toggle="tab">Conteggio per ogni numero</a></li>
+  <li><a href="#chart_div1" data-toggle="tab">Percentuale per ogni numero</a></li>
+  <li><a href="#chart_div2" data-toggle="tab">Numeri con maggiori ricorrenze</a></li>
+  <li><a href="#gauge_div" data-toggle="tab">Tempo di esecuzione</a></li>
+  <li><a href="#table_div" data-toggle="tab">Recap Tabellare</a></li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="chart_div">
+ <p>Caricamento in corso...</p>
+</div>
+<div class="tab-pane" id="chart_div1">
+</div>
+<div class="tab-pane" id="chart_div2">
+</div>
+<div class="tab-pane" id="gauge_div" style="margin-left:200px; margin-top:100px;">
+</div>
+<div class="tab-pane" id="table_div" style="margin-left:20px; margin-top:40px;">
+</div>
+</div>
+    
+    <!--Style in order to center table values-->
+	<style>
+		.google-visualization-table-td {
+			text-align: center !important;
+		}
+	</style>
+	    
+    <script type="text/javascript">
+    $( document ).ready(function() {
+    	
+    	////////////READ ALL THE DATA FROM JSON //////////////
+    var datiJson;
+    var matrix = [];
+    var matrixPercentuali = [];
+    var matrixRicorrenze = [];
+    	$.getJSON("jsonchart", function(data) {
+    	console.log(JSON.stringify(data));
+    	datiJson=data;
+    	var percentuali = datiJson["percentuali"];
+    	for(var chiave in percentuali){
+    		var matrixElement = [chiave, percentuali[chiave]];
+    		matrix.push(matrixElement);
+    	}
+    	//////////
+    	for(var chiave in percentuali){
+    		var matrixElement = [chiave, percentuali[chiave]/1000];
+    		matrixPercentuali.push(matrixElement);
+    	}
+    	
+    	/////////
+    	var ricorrenze = datiJson["maggioriricorrenze"];
+    	for(var chiave in ricorrenze){
+    		var matrixElement = [chiave, ricorrenze[chiave]];
+    		matrixRicorrenze.push(matrixElement);
+    	}
+    	var numeriDifferenti = datiJson["numeriDifferenti"];
+    	var tempo = datiJson["tempo"];
+    	console.log(matrix);
+    	console.log(matrixPercentuali);
+    	console.log(matrixRicorrenze);
+    	console.log(numeriDifferenti);
+    	console.log(tempo);
+  
+
+    	/*/////////////
+    	    CHARTS
+    	*/////////////
+    	
+
+        google.load('visualization', '1.0', {'packages':['corechart','gauge','table'],"callback":drawChart});
+
+        function drawChart() {
+            
+        	//LINECHART for the count of occurence of each number
+            var chartdata = new google.visualization.DataTable();
+            chartdata.addColumn('string', 'Numero');
+            chartdata.addColumn('number', 'Conteggio');
+            chartdata.addRows(matrix);
+
+            var options = {'title':'Conteggio ripetizione',
+                         'width':800,
+                         'height':600,
+                         'vAxis': {minValue: 0},
+                         };
+
+          var chart = new google.visualization.LineChart(document.getElementById('chart_div'));        
+          chart.draw(chartdata, options);
+          
+          //BARCHART FOR PERCENTAGE
+          var chartdata1 = new google.visualization.DataTable();
+          chartdata1.addColumn('string', 'Numero');
+          chartdata1.addColumn('number', 'Valore percentuale(%)');
+          chartdata1.addRows(matrixPercentuali);
+
+          var options1 = {'title':'Percentuale ripetizione',
+                       'width':800,
+                       'height':1000,
+                       'vAxis': {minValue: 0},
+                       };
+
+        var chart1 = new google.visualization.BarChart(document.getElementById('chart_div1'));        
+        chart1.draw(chartdata1, options1);
+          
+          
+          
+          //BARCHART for the three most repetead numbers
+          var chartdata2 = new google.visualization.DataTable();
+          chartdata2.addColumn('string', 'Numero');
+          chartdata2.addColumn('number', 'Totale ricorrenze');
+          chartdata2.addRows(matrixRicorrenze);
+
+          var options2 = {'title':'Numeri maggiormente ricorrenti',
+                       'width':800,
+                       'height':600,
+                       'vAxis': {minValue: 0}};
+          
+          var chart2 = new google.visualization.BarChart(document.getElementById('chart_div2'));
+          chart2.draw(chartdata2, options2);
+          
+          //GAUGE CHART for the execution time in ms
+          var data3 = google.visualization.arrayToDataTable([
+                     ['Label', 'Value'],
+                     ['Milliseconds', tempo],]);
+
+          var options3 = {
+                         'width': 600, 'height': 180,
+                         'redFrom': 7500, 'redTo': 10000,
+                         'yellowFrom':6250, 'yellowTo': 7500,
+                         'greenFrom':0, 'greenTo': 2500,
+                         'minorTicks': 30,
+                         'max': 10000, 'min': 0};
+          
+          var chart3 = new google.visualization.Gauge(document.getElementById('gauge_div'));
+          chart3.draw(data3, options3);
+          
+          
+          //TABLE for info about execution time and total of numbers
+          var data4 = new google.visualization.DataTable();
+
+        	data4.addColumn('number', 'Numeri diversi generati');
+        	data4.addColumn('number', 'Tempo di esecuzione in ms');
+        	data4.addRows([
+          [numeriDifferenti,  tempo],
+        ]);
+
+        var table = new google.visualization.Table(document.getElementById('table_div'));
+
+        table.draw(data4, {showRowNumber: false, 'width':800,});
+          
+        }
+
+ 
+		}, "json");  	
+    });
+    </script>
+	
+  </body>
+</html>

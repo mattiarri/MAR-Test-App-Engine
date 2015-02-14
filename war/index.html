@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Random Numbers Generator</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<div class="well">
+    <h1>CASUAL NUMBERS GENERATOR <img src='images/googleLogo.jpg' class='img-circle'></h1>
+</div>
+<div class="panel-group" id="accordion">
+ <div class="panel panel-primary">
+  <div class="panel-heading">
+   <h4 class="panel-title">
+   <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#MARinfo">Informazioni:</a>
+   </h4>
+  </div>
+  <div id="MARinfo" class="panel-collapse collapse in">
+  <div class="panel-body">La presente Google App pu&ograve gestire il Login sia attraverso un Google account, sia tramite l'inserimento di user e password.<br>L'applicazione fa uso del datastore per memorizzare i risultati dei batch. L'unico limite &egrave dovuto al raggiungimento della quota giornaliera di scrittura sul datastore.</div>
+  </div>
+ </div>
+<div class="MARlogin">
+    <div id="MARCarousel" class="carousel slide" data-interval="2000" data-ride="carousel">
+    	<!-- Carousel indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#MARCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#MARCarousel" data-slide-to="1"></li>
+        </ol>   
+       <!-- Slides -->
+        <div class="carousel-inner">
+            <div class="active item">
+            	<a href="mar_test_app_engine"> 
+                	<img class="img-responsive center-block" src="images/google.jpg" alt="Login tramite google account">
+            	</a>
+                <h2>Google Account</h2>             
+                <div class="carousel-caption">
+                    <h3>Login tramite Google Account</h3>
+                  <p>Accedi all'applicativo inserendo le tue credenziali Google</p>
+                </div>
+            </div>
+            <div class="item">
+                <a href="login.html"> 
+                	<img class="img-responsive center-block" src="images/noGoogle.jpg" alt="Login senza google account">
+            	</a>
+                <h2>Senza Google Account</h2>
+                <div class="carousel-caption">
+                  <h3>Login con mail di terze parti</h3>
+                  <p>Non hai un account Google? Accedi all'applicativo utilizzando la tua mail</p>
+                </div>
+            </div>
+        </div>
+        <!-- Navigatore slide-->
+        <a class="carousel-control left" href="#MARCarousel" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="carousel-control right" href="#MARCarousel" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+    </div>
+</div>
+</body>
+</html>                                		

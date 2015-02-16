@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.taskqueue.Queue;
@@ -34,7 +35,7 @@ public class RandomNumGeneration extends HttpServlet {
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		lStartTime = new Date().getTime(); // update the start time
-		ArrayList<Integer> allNumbers = new ArrayList<Integer>();	
+		ArrayList<Long> allNumbers = new ArrayList<Long>();	
 		UserService userService = UserServiceFactory.getUserService();
 	    User user = userService.getCurrentUser();
 	    s_user = "";
@@ -57,16 +58,17 @@ public class RandomNumGeneration extends HttpServlet {
 				String s_key = x+""+s_user;
 				myQueue.add(TaskOptions.Builder.withUrl("/generatebatch").param("chiaveInc", s_key));
 				resp.getWriter().println(strCallResult);
-			}
-		
+			}		
 		}
 		catch (Exception ex) {
 			strCallResult = "Fail: " + ex.getMessage();
 			resp.getWriter().println(strCallResult);
-		}		
-			RequestDispatcher rd = req.getRequestDispatcher("/graph.html");
+		}
+
+		
+			RequestDispatcher rd = req.getRequestDispatcher("/fineelab.html");/////////////////////
 			req.setAttribute("allNumbers", allNumbers);
-	        rd.forward(req, resp);		
+	        rd.forward(req, resp);
 	}
 
 	@Override
